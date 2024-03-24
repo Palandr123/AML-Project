@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "aml_project"
+version = "0.1.0"
+description = ""
+authors = ["Andrey Palaev <a.palaev@innopolis.university>",
+           "Mikhail Rudakov <m.rudakov@innopolis.university>",
+           "Dinislam Gabitov <d.gabitov@innopolis.university>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
