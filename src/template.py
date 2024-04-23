@@ -1,17 +1,13 @@
-template = [
-    {
-        "role": "user",
-        "content": 
-        """
-        Course title: Machine Learning
-        Short description: This course covers the following concepts: Machine learning paradigms; Machine Learning approaches, and algorithms.
-        """,
-    },
-    {
-        "role": "assistant",
-        "content": 
-        """
-        "Course Topics": [
+template = """Your task is to assist syllabus creation for the courses. You are given course title TITLE and 
+course description DESCRIPTION. Generate a list of appropriate course sections and topics for each section, labeled as COURSE_TOPICS,
+for the given COURSE. As a reference, you are given several examples in EXAMPLES section.
+
+EXAMPLES:
+
+EXAMPLE 1:
+TITLE: "Machine Learning"
+DESCRIPTION: "This course covers the following concepts: Machine learning paradigms; Machine Learning approaches, and algorithms."
+COURSE_TOPICS: [
             {
             "Section": "Supervised Learning",
             "Topics within the section": [
@@ -73,21 +69,11 @@ template = [
             ]
             }
         ]
-        """,
-    },
-    {
-        "role": "user",
-        "content": 
-        """
-        Course title: Fundamentals of Robot Control
-        Short description: This course covers the following concepts: Introductory nonlinear control over dynamic systems with the focus on robotics; Stability, pros and cons of nonlinear control systems.
-        """,
-    },
-    {
-        "role": "assistant",
-        "content": 
-        """
-        "Course Topics": [
+
+EXAMPLE 2:
+COURSE: Fundamentals of Robot Control
+DESCRIPTION: This course covers the following concepts: Introductory nonlinear control over dynamic systems with the focus on robotics; Stability, pros and cons of nonlinear control systems.
+COURSE_TOPICS: [
             {
             "Section": "Motion. Kinematics. Dynamics.",
             "Topics within the section": [
@@ -136,21 +122,11 @@ template = [
             ]
             }
         ]
-        """,
-    },
-    {
-        "role": "user",
-        "content": 
-        """
-        Course title: Managing Software Development
-        Short description: This course covers the following concepts: People Management; Processes and Software Development Life-cycles; Planning and Controlling.
-        """,
-    },
-    {
-        "role": "assistant",
-        "content": 
-        """
-        "Course Topics": [
+
+EXAMPLE 3:
+COURSE: Managing Software Development
+DESCRIPTION: This course covers the following concepts: People Management; Processes and Software Development Life-cycles; Planning and Controlling.
+COURSE_TOPICS: [
             {
             "Section": "People Management",
             "Topics within the section": [
@@ -195,21 +171,11 @@ template = [
             ]
             }
         ]
-        """,
-    },
-    {
-        "role": "user",
-        "content": 
-        """
-        Course title: Empirical Methods
-        Short description: This course covers the following concepts: Goal-Question-Metric approach; Experimental design; Basics of statistics.
-        """,
-    },
-    {
-        "role": "assistant",
-        "content": 
-        """
-        "Course Topics": [
+
+EXAMPLE 4:
+COURSE: Empirical Methods
+DESCRIPTION: This course covers the following concepts: Goal-Question-Metric approach; Experimental design; Basics of statistics.
+COURSE_TOPICS: [
             {
                 "Section": "Concept of measuring",
                 "Topics within the section": [
@@ -234,120 +200,304 @@ template = [
                 ]
             }
         ]
-        """,
-    },
-    {
-        "role": "user",
-        "content": 
-        """
-        Course title: Sensing, Perception & Actuation
-        Short description: This course covers the following concepts: Physical principles of sensors and their limitations; Measurements, Sensor Calibration, Data and Error analysis; Development of algorithms for image processing, feature extraction and object recognition; 3D Point cloud processing and scene reconstruction; Linear Kalman Filter and Sensor Fusion.
-        """,
-    },
-    {
-        "role": "assistant",
-        "content": 
-        """
-        "Course Topics": [
+
+EXAMPLE 5:
+COURSE: Sensing, Perception & Actuation
+DESCRIPTION: This course covers the following concepts: Physical principles of sensors and their limitations; Measurements, Sensor Calibration, Data and Error analysis; Development of algorithms for image processing, feature extraction and object recognition; 3D Point cloud processing and scene reconstruction; Linear Kalman Filter and Sensor Fusion.
+COURSE_TOPICS: [
             {
-            "Section": "Intro to Sensors. Data and Error Analysis",
-            "Topics within the section": [
-                "Sensors’ classification and Applications",
-                "Sensors Characteristics: Dynamic range, Accuracy, Signal & Noise ratio",
-                "Error analysis: Systematic vs Statistical Errors, Accuracy and Precision, Central Limit Theorem, 3 sigma rule, outliers",
-                "Sensor calibration. Direct and indirect measurements",
-                "Introduction to Data Analysis: Linear Regression, Least-Squares Fitting, Curve fitting, and Smoothing"
-            ]
+                "Section": "Intro to Sensors. Data and Error Analysis",
+                "Topics within the section": [
+                    "Sensors’ classification and Applications",
+                    "Sensors Characteristics: Dynamic range, Accuracy, Signal & Noise ratio",
+                    "Error analysis: Systematic vs Statistical Errors, Accuracy and Precision, Central Limit Theorem, 3 sigma rule, outliers",
+                    "Sensor calibration. Direct and indirect measurements",
+                    "Introduction to Data Analysis: Linear Regression, Least-Squares Fitting, Curve fitting, and Smoothing"
+                ]
             },
             {
-            "Section": "Perception",
-            "Topics within the section": [
-                "Image sensors: camera matrix, characteristics. Color filters.",
-                "Pinhole camera model, lenses and distortions",
-                "Camera calibration, Intrinsic and Extrinsic matrices",
-                "Video camera: CCTV, IR & thermal imaging camera, Fish eye camera",
-                "Stereo vision: Stereosystem, Stereogeometry",
-                "Image rectification, Disparity map, 3D Point Cloud from Stereo",
-                "Point clouds processing, 3D reconstruction, Structure-from-Motion (SfM)",
-                "LIDAR: Laser rangefinders. Laser-camera systems. Airborne LIDAR",
-                "Depth, TOF, RGBD camera, MS Kinect: characteristics and calibration",
-                "SONAR. Piezocrystalls. Doppler effect. Doppler radar.",
-                "Acoustic sensor systems. Sound spectrogram",
-                "mm-RADAR, Long-Range RADAR, Short-range RADAR"
-            ]
+                "Section": "Perception",
+                "Topics within the section": [
+                    "Image sensors: camera matrix, characteristics. Color filters.",
+                    "Pinhole camera model, lenses and distortions",
+                    "Camera calibration, Intrinsic and Extrinsic matrices",
+                    "Video camera: CCTV, IR & thermal imaging camera, Fish eye camera",
+                    "Stereo vision: Stereosystem, Stereogeometry",
+                    "Image rectification, Disparity map, 3D Point Cloud from Stereo",
+                    "Point clouds processing, 3D reconstruction, Structure-from-Motion (SfM)",
+                    "LIDAR: Laser rangefinders. Laser-camera systems. Airborne LIDAR",
+                    "Depth, TOF, RGBD camera, MS Kinect: characteristics and calibration",
+                    "SONAR. Piezocrystalls. Doppler effect. Doppler radar.",
+                    "Acoustic sensor systems. Sound spectrogram",
+                    "mm-RADAR, Long-Range RADAR, Short-range RADAR"
+                ]
             },
             {
-            "Section": "Sensor Fusion and Filtering",
-            "Topics within the section": [
-                "Filtering",
-                "Linear Kalman Filter (KF)",
-                "Sensor Fusion",
-                "Linear Kalman Filter vs Extended KF",
-                "MoCap system",
-                "Multicamera system"
-            ]
+                "Section": "Sensor Fusion and Filtering",
+                "Topics within the section": [
+                    "Filtering",
+                    "Linear Kalman Filter (KF)",
+                    "Sensor Fusion",
+                    "Linear Kalman Filter vs Extended KF",
+                    "MoCap system",
+                    "Multicamera system"
+                ]
             },
             {
-            "Section": "Actuators and Passive Sensors: GPS, IMU and Inertial Sensors",
-            "Topics within the section": [
-                "GPS, differential GPS (dGPS)",
-                "Inertial sensors: IMU, accelerometers, gyroscopes",
-                "Magnetometers",
-                "Internal sensors: position, velocity, torque & force sensors, encoders",
-                "MEMS for robot applications",
-                "Actuators",
-                "Smart and Intelligent Sensors"
-            ]
+                "Section": "Actuators and Passive Sensors: GPS, IMU and Inertial Sensors",
+                "Topics within the section": [
+                    "GPS, differential GPS (dGPS)",
+                    "Inertial sensors: IMU, accelerometers, gyroscopes",
+                    "Magnetometers",
+                    "Internal sensors: position, velocity, torque & force sensors, encoders",
+                    "MEMS for robot applications",
+                    "Actuators",
+                    "Smart and Intelligent Sensors"
+                ]
             }
         ]
-        """,
-    },
-    {
-        "role": "user",
-        "content": 
-        """
-        Course title: Requirements Engineering
-        Short description: This course covers the following concepts: Requirements elicitation; Requirements specification; Requirements prototyping and implementation; Requirements verification; Requirements traceability.
-        """,
-    },
-    {
-        "role": "assistant",
-        "content": 
-        """
-        "Course Topics": [
+
+EXAMPLE 6:
+COURSE: Requirements Engineering
+DESCRIPTION: This course covers the following concepts: Requirements elicitation; Requirements specification; Requirements prototyping and implementation; Requirements verification; Requirements traceability.
+COURSE_TOPICS: [
             {
-            "Section": "Requirements elicitation and documentation",
-            "Topics within the section": [
-                "Foundations of requirements engineering",
-                "The world and the machine",
-                "Domain understanding and requirements elicitation",
-                "Questions for interviews",
-                "The requirements process",
-                "Use cases",
-                "Requirements specification and documentation"
-            ]
+                "Section": "Requirements elicitation and documentation",
+                "Topics within the section": [
+                    "Foundations of requirements engineering",
+                    "The world and the machine",
+                    "Domain understanding and requirements elicitation",
+                    "Questions for interviews",
+                    "The requirements process",
+                    "Use cases",
+                    "Requirements specification and documentation"
+                ]
             },
             {
-            "Section": "Requirements prototyping and implementation",
-            "Topics within the section": [
-                "Mapping use cases to object models",
-                "From use cases to user interface design",
-                "Activity diagrams",
-                "The psychopathology of everyday things",
-                "Seamless requirements",
-                "The anatomy of requirements"
-            ]
+                "Section": "Requirements prototyping and implementation",
+                "Topics within the section": [
+                    "Mapping use cases to object models",
+                    "From use cases to user interface design",
+                    "Activity diagrams",
+                    "The psychopathology of everyday things",
+                    "Seamless requirements",
+                    "The anatomy of requirements"
+                ]
             },
             {
-            "Section": "Requirements verification and traceability",
-            "Topics within the section": [
-                "Parameterized unit tests",
-                "Goal modelling",
-                "Scrum & User stories",
-                "Use case testing"
-            ]
+                "Section": "Requirements verification and traceability",
+                "Topics within the section": [
+                    "Parameterized unit tests",
+                    "Goal modelling",
+                    "Scrum & User stories",
+                    "Use case testing"
+                ]
             }
         ]
-        """,
-    },
-]
+
+Remember to use exact algorithms or topics names inside each section. Produce a similar json-like
+answer with course title, description and generated course topics. Number of sections shoud be 3 or 4, with 4-5 topics within the section. Do not use repetetive topics names.
+Now generate the COURSE_TOPICS for the following:
+"""
+
+
+template_ilo = """Your task is to assist syllabus creation for the courses. You are given course title TITLE and 
+course description DESCRIPTION. Generate a list of appropriate intended learning outcomes, labeled as INTENDED_LEARNING_OUTCOMES,
+for the given COURSE. As a reference, you are given several examples in EXAMPLES section.
+
+EXAMPLES:
+
+EXAMPLE 1:
+TITLE: "Machine Learning"
+DESCRIPTION: "This course covers the following concepts: Machine learning paradigms; Machine Learning approaches, and algorithms."
+INTENDED_LEARNING_OUTCOMES: {
+    "What is the main purpose of this course?": "There is a growing business need of individuals skilled in artificial intelligence, data analytics, and machine learning. Therefore, the purpose of this course is to provide students with an intensive treatment of a cross-section of the key elements of machine learning, with an emphasis on implementing them in modern programming environments, and using them to solve real-world data science problems.",
+    "ILOs defined at three levels": {
+      "Level 1: What concepts should a student know/remember/explain?": [
+        "Different learning paradigms",
+        "A wide variety of learning approaches and algorithms",
+        "Various learning settings",
+        "Performance metrics",
+        "Popular machine learning software tools"
+      ],
+      "Level 2: What basic practical skills should a student be able to perform?": [
+        "Difference between different learning paradigms",
+        "Difference between classification and regression",
+        "Concept of learning theory (bias/variance tradeoffs and large margins etc.)",
+        "Kernel methods",
+        "Regularization",
+        "Ensemble Learning",
+        "Neural or Deep Learning"
+      ],
+      "Level 3: What complex comprehensive skills should a student be able to apply in real-life scenarios?": [
+        "Classification approaches to solve supervised learning problems",
+        "Clustering approaches to solve unsupervised learning problems",
+        "Ensemble learning to improve a model’s performance",
+        "Regularization to improve a model’s generalization",
+        "Deep learning algorithms to solve real-world problems"
+      ]
+    }
+  }
+
+EXAMPLE 2:
+COURSE: Fundamentals of Robot Control
+DESCRIPTION: This course covers the following concepts: Introductory nonlinear control over dynamic systems with the focus on robotics; Stability, pros and cons of nonlinear control systems.
+INTENDED_LEARNING_OUTCOMES: {
+    "What is the main purpose of this course?": "Control theory is an integral part of modern robotics, and there is a high chance that most students majoring in Robotics would face the problems of controlling a physical plant (a robot, manipulator, drone, autonomous vehicle) in their research and graduation work as well as their professional careers. Therefore, the main purpose of this course is to prepare the students for solving practical control problems by teaching the most fundamental approaches of nonlinear control used in modern robotics applications.",
+    "ILOs defined at three levels": {
+      "Level 1: What concepts should a student know/remember/explain?": [
+        "Basic structure of differential equations describing motion of robotic manipulators,",
+        "Motivation behind and the basic structure of feedback control systems,",
+        "How to find control system’s error dynamics and methods to analyze it,",
+        "General structure of linear controllers (P, PD, PID),",
+        "Physical motivation behind Lyapunov stability analysis,",
+        "Basic structure of robust control system."
+      ],
+      "Level 2: What basic practical skills should a student be able to perform?": [
+        "Name the main sources of nonlinearities in physical systems,",
+        "Explain the cons of applying PID controllers to nonlinear systems,",
+        "Understand pros and cons of feedback linearization method,",
+        "Name pros and cons of robust control approach,",
+        "Numerically solve differential equations in MATLAB environment."
+      ],
+      "Level 3: What complex comprehensive skills should a student be able to apply in real-life scenarios?": [
+        "Know how to analyze stability of physical systems with Lyapunov direct method,",
+        "Design feedback linearization systems,",
+        "Synthesize robust control systems and tune them,",
+        "Implement nonlinear control in MATLAB environment to simulate the behavior of multi-DOF robotic systems."
+      ]
+    }
+  }
+
+EXAMPLE 3:
+COURSE: Managing Software Development
+DESCRIPTION: This course covers the following concepts: People Management; Processes and Software Development Life-cycles; Planning and Controlling.
+INTENDED_LEARNING_OUTCOMES: {
+    "What is the main purpose of this course?": "CIA course serves as kick-start for the security and network engineering Masters program. Before diving into the depth of the topics, the students must know preliminary concepts related to computer networks services and applications therein. This course is designed to cover the basic services offered by the Internet including operating systems and computer architecture. The concepts from this course will be used throughout the course of whole masters. More precisely, this course will cover the basic computer architecture and assembly language programming, Domain Name Services (DNS), DNSSec, email, web, directories, and disks. This course will also cover protocols and ABNF. The theory part will strengthen the theoretical aspects of the concepts whereas the lab exercises will provide the students with the opportunity to have hands-on experience of the ideas they learnt in the lectures.",
+    "ILOs defined at three levels": {
+      "Level 1: What concepts should a student know/remember/explain?": [
+        "Identify different Internet applications and understand their working principles from the protocols point of view",
+        "Demonstrate the acquired knowledge and skills in classical internet applications including DNS, Email, and Directory services.",
+        "Able to write regular expressions and context-free grammar that are essential in Internet applications and information exchange through the networks",
+        "Able to partition disks and remember the booting principles as well as secure booting"
+      ],
+      "Level 2: What basic practical skills should a student be able to perform?": [
+        "Demonstrate knowledge and skills to use web services",
+        "Demonstrate the essential knowledge of disks and calculate particular locations/addresses in disks",
+        "Reason about problems in the current DNS and the need to upgrade to DNSSEC and DNS over HTTPS",
+        "Demonstrate the knowledge of email and other services configuration"
+      ],
+      "Level 3: What complex comprehensive skills should a student be able to apply in real-life scenarios?": [
+        "Install, Configure, update, and manage DNS services over a network",
+        "Configure, maintain, and update the secure DNS over a network",
+        "Update, add, and delete records in DNS",
+        "Configure a secure mail server and maintain it",
+        "Get hands-on experience of the afore-mentioned technologies on their own servers."
+      ]
+    }
+  }
+
+EXAMPLE 4:
+COURSE: Empirical Methods
+DESCRIPTION: This course covers the following concepts: Goal-Question-Metric approach; Experimental design; Basics of statistics.
+INTENDED_LEARNING_OUTCOMES: {
+    "What is the main purpose of this course?": "The main purpose of this course is to present the fundamentals of empirical methods and fundamental statistics to the future software engineers and data scientists, on one side providing the scientific fundamentals of the disciplines, and on the other anchoring the theoretical concepts on practices coming from the world of software development and engineering. As a side product, the course also refreshes the basics of statistics, providing the basis for more advanced statistical courses in the following semester(s) of study.",
+    "ILOs defined at three levels": {
+      "Level 1: What concepts should a student know/remember/explain?": [
+        "Remember the fundamentals of statistics and probability theory",
+        "Remember the basic models for experimentation and quasi-experimentation",
+        "Remember the specifics and purpose of different measurement scales",
+        "Distinguish between random variable and random process",
+        "Explain the difference between the correlation and causation"
+      ],
+      "Level 2: What basic practical skills should a student be able to perform?": [
+        "the value of experimentation for software engineers and data scientists",
+        "the basic concepts of an hypothesis",
+        "the concept of correlation",
+        "the fundamental laws in statistics",
+        "the concept of Goal-Question-Metric approach"
+      ],
+      "Level 3: What complex comprehensive skills should a student be able to apply in real-life scenarios?": [
+        "Apply Goal-Question-Metric approach in practice",
+        "Apply the fundamental principles of experimental design",
+        "Apply reduction to quasi-experimentation experimental design",
+        "Apply statistics and probability theory in practice",
+        "Apply hypothesis testing technique in software analysis"
+      ]
+    }
+  }
+
+EXAMPLE 5:
+COURSE: Sensing, Perception & Actuation
+DESCRIPTION: This course covers the following concepts: Physical principles of sensors and their limitations; Measurements, Sensor Calibration, Data and Error analysis; Development of algorithms for image processing, feature extraction and object recognition; 3D Point cloud processing and scene reconstruction; Linear Kalman Filter and Sensor Fusion.
+INTENDED_LEARNING_OUTCOMES: {
+    "What is the main purpose of this course?": "One of the most important tasks of an autonomous system of any kind is to acquire knowledge about its environment. This is done by taking measurements using various sensors and then extracting meaningful information from those measurements. In this course we present the most common sensors used in mobile robots and autonomous systems and then discuss strategies for extracting information from the sensors.",
+    "ILOs defined at three levels": {
+      "Level 1: What concepts should a student know/remember/explain?": [
+        "familiar with physical and sensing principles for Camera, Stereo vision, LIDAR, SONAR, Time-of-Flight camera, GPS, actuators, inertial and internal sensors",
+        "acquainted with measurements and error analysis, data analysis, and sensor calibration",
+        "familiar with triangulation principle, basics of image and point cloud processing methods"
+      ],
+      "Level 2: What basic practical skills should a student be able to perform?": [
+        "Understand how to remove systematic error and how to decrease statistical error",
+        "Recover depth information from stereo vision, structure-from-light and TOF cameras",
+        "Explain how Linear Regression and Least-Squares Fitting allow to minimize measurement errors"
+      ],
+      "Level 3: What complex comprehensive skills should a student be able to apply in real-life scenarios?": [
+        "Calibrate sensors to remove systematic errors",
+        "Extract meaningful information from sensor’s data (features, objects, depth and accuracy information)",
+        "Detect objects from 2D images",
+        "Recover scene from 3D Point Cloud",
+        "Filter noisy data",
+        "Match models to datasets",
+        "Fuse sensor’s data and apply Kalman Filtering",
+        "Apply GPS, camera, LIDAR, RADAR, SONAR, IMU, Stereo camera for a mobile robot localization"
+      ]
+    }
+  }
+
+EXAMPLE 6:
+COURSE: Requirements Engineering
+DESCRIPTION: This course covers the following concepts: Requirements elicitation; Requirements specification; Requirements prototyping and implementation; Requirements verification; Requirements traceability.
+INTENDED_LEARNING_OUTCOMES: {
+    "What is the main purpose of this course?": "To introduce the motivation, conceptual background and terminology on which requirements engineering relies., To provide a comprehensive account of state-of-the-art techniques for requirements engineering., To let the students experience the actual requirements-caused problems faced by real software teams.",
+    "ILOs defined at three levels": {
+      "Level 1: What concepts should a student know/remember/explain?": [
+        "System requirements",
+        "Software requirements",
+        "Domain knowledge",
+        "Environment assumptions",
+        "Environment-controlled phenomena",
+        "Machine-controlled phenomena",
+        "Environment-observed phenomena",
+        "Machine-observed phenomena",
+        "Problem space",
+        "Solution space",
+        "Prescriptive statements",
+        "Descriptive statements",
+        "Traceability links"
+      ],
+      "Level 2: What basic practical skills should a student be able to perform?": [
+        "Difference between system and software requirements",
+        "Difference between domain knowledge and environment assumptions",
+        "Pairwise difference between environment- and machine-controlled (observed) phenomena",
+        "Difference between the world and the machine",
+        "Difference between problem and solution space",
+        "Difference between prescriptive and descriptive statements",
+        "Difference between vertical and horizontal traceability"
+      ],
+      "Level 3: What complex comprehensive skills should a student be able to apply in real-life scenarios?": [
+        "Requirements elicitation techniques",
+        "Requirements specification techniques",
+        "Prototyping and implementation techniques",
+        "Negotiation techniques for modifying requirements",
+        "Techniques for establishing traceability links, both vertical and horizontal",
+        "Parameterized unit testing",
+        "Acceptance testing"
+      ]
+    }
+  }
+
+Produce a similar json-like answer with course title, description and generated intended learning outcomes.
+Now generate the INTENDED_LEARNING_OUTCOMES for the following:
+"""
