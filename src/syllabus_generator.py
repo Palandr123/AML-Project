@@ -1,7 +1,8 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from template import template_ilo
+from template import template_ilo, template_assessment
 from template import template as template_topics
+
 
 from peft import LoraConfig, get_peft_model
 
@@ -79,6 +80,8 @@ def generate_syllabus(
         prompt_base = template_topics
     elif field_to_generate == "ILO":
         prompt_base = template_ilo
+    elif field_to_generate == "Final Assessment":
+        prompt_base = template_assessment
 
     prompt_str = (
         f"{prompt_base}TITLE: {course_title}\nDESCRIPTION: {course_description}\n"
@@ -87,7 +90,8 @@ def generate_syllabus(
         prompt_str += "COURSE_TOPICS: "
     elif field_to_generate == "ILO":
         prompt_str += "INTENDED_LEARNING_OUTCOMES: "
-
+    elif field_to_generate == "Final Assessment":
+        prompt_str += "FINAL_ASSESSMENT: "
     chat = [
         {"role": "user", "content": prompt_str},
     ]

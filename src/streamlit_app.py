@@ -47,7 +47,7 @@ course_description = st.sidebar.text_area(
 )
 
 # -- What to generate
-titles_list = ["Course topics", "ILO"]
+titles_list = ["Course topics", "ILO", "Final Assessment"]
 field_to_generate = st.sidebar.selectbox("What to generate", titles_list)
 
 show_full_course_titles = st.sidebar.checkbox("Show full course names")
