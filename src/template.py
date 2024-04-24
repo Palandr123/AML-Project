@@ -1,5 +1,4 @@
-template = """Your task is to assist syllabus creation for the courses. You are given course title TITLE and 
-course description DESCRIPTION. Generate a list of appropriate course sections and topics for each section, labeled as COURSE_TOPICS,
+template = """Your task is to assist syllabus creation for the courses. You are given course title TITLE, course description DESCRIPTION and prerequisites PREREQUISITES. Generate a list of appropriate course sections and topics for each section, labeled as COURSE_TOPICS,
 for the given COURSE. As a reference, you are given several examples in EXAMPLES section.
 
 EXAMPLES:
@@ -7,6 +6,16 @@ EXAMPLES:
 EXAMPLE 1:
 TITLE: "Machine Learning"
 DESCRIPTION: "This course covers the following concepts: Machine learning paradigms; Machine Learning approaches, and algorithms."
+PREREQUISITES: {
+    PREREQUISITE_SUBJECTS: [
+      "Data Structures and Algorithms: python, numpy, basic object-oriented concepts, memory management",
+      "Mathematical Analysis I",
+      "Mathematical Analysis II",
+      "Analytical Geometry and Linear Algebra I",
+      "Analytic Geometry And Linear Algebra II"
+    ],
+    "PREREQUISITE_TOPICS": []
+}
 COURSE_TOPICS: [
             {
             "Section": "Supervised Learning",
@@ -73,6 +82,19 @@ COURSE_TOPICS: [
 EXAMPLE 2:
 COURSE: Fundamentals of Robot Control
 DESCRIPTION: This course covers the following concepts: Introductory nonlinear control over dynamic systems with the focus on robotics; Stability, pros and cons of nonlinear control systems.
+PREREQUISITES: {
+    "PREREQUISITE_SUBJECTS": [
+        "python,",
+        "numpy library,",
+        "Google Colab environment",
+        "Mathematical Analysis I and CSE203 — Mathematical Analysis II]: integration and differentiation, exponentials, gradient.",
+        "Analytical Geometry and Linear Algebra I",
+        "Analytic Geometry And Linear Algebra II: matrix multiplication, eigenvector and eigenvalue.",
+        "Differential Equations: state-space representation, homogeneous and nonhomogeneous equations, general solution of linear 1st and 2nd order ODEs, stability of solutions.",
+        "Linear control theory: concepts of feedback, open- and closed-loop systems, linear controllers (PD, PID)"
+    ],
+    "PREREQUISITE_TOPICS": []
+}
 COURSE_TOPICS: [
             {
             "Section": "Motion. Kinematics. Dynamics.",
@@ -126,6 +148,13 @@ COURSE_TOPICS: [
 EXAMPLE 3:
 COURSE: Managing Software Development
 DESCRIPTION: This course covers the following concepts: People Management; Processes and Software Development Life-cycles; Planning and Controlling.
+PREREQUISITES: {
+    "PREREQUISITE_SUBJECTS": [
+        "Understanding of Agile Processes, for example SCRUM",
+        "Writing 1 page essays"
+    ],
+    "PREREQUISITE_TOPICS": []
+}
 COURSE_TOPICS: [
             {
             "Section": "People Management",
@@ -175,6 +204,10 @@ COURSE_TOPICS: [
 EXAMPLE 4:
 COURSE: Empirical Methods
 DESCRIPTION: This course covers the following concepts: Goal-Question-Metric approach; Experimental design; Basics of statistics.
+PREREQUISITES: {
+    "PREREQUISITE_SUBJECTS": [],
+    "PREREQUISITE_TOPICS": []
+}
 COURSE_TOPICS: [
             {
                 "Section": "Concept of measuring",
@@ -204,6 +237,18 @@ COURSE_TOPICS: [
 EXAMPLE 5:
 COURSE: Sensing, Perception & Actuation
 DESCRIPTION: This course covers the following concepts: Physical principles of sensors and their limitations; Measurements, Sensor Calibration, Data and Error analysis; Development of algorithms for image processing, feature extraction and object recognition; 3D Point cloud processing and scene reconstruction; Linear Kalman Filter and Sensor Fusion.
+PREREQUISITES: {
+    "PREREQUISITE_SUBJECTS": [
+        "Physics I (Mechanics)",
+        "Physics II - Electrical Engineering",
+        "Mathematical Analysis I",
+        "Mathematical Analysis II",
+        "Analytical Geometry and Linear Algebra I",
+        "Analytic Geometry And Linear Algebra II",
+        "Probability And Statistics"
+    ],
+    "PREREQUISITE_TOPICS": []
+}
 COURSE_TOPICS: [
             {
                 "Section": "Intro to Sensors. Data and Error Analysis",
@@ -260,6 +305,16 @@ COURSE_TOPICS: [
 EXAMPLE 6:
 COURSE: Requirements Engineering
 DESCRIPTION: This course covers the following concepts: Requirements elicitation; Requirements specification; Requirements prototyping and implementation; Requirements verification; Requirements traceability.
+PREREQUISITES: {
+    "PREREQUISITE_SUBJECTS": [
+        "Basics of Software Development",
+        "Basics of Software Testing",
+        "Basics of Software design and Unified Modelling Language",
+        "Basics of Software Development process",
+        "Basics of Software Engineering"
+    ],
+    "PREREQUISITE_TOPICS": []
+}
 COURSE_TOPICS: [
             {
                 "Section": "Requirements elicitation and documentation",
@@ -296,7 +351,8 @@ COURSE_TOPICS: [
         ]
 
 Remember to use exact algorithms or topics names inside each section. Produce a similar json-like
-answer with course title, description and generated course topics. Number of sections shoud be 3 or 4, with 4-5 topics within the section. Do not use repetetive topics names.
+answer with course title, description and generated course topics. Number of sections shoud be 3 or 4, with 4-5 topics within the section. Do not use repetetive topics names. Course topics should not overlap with PREREQUISITES.
+Make sure that parentheses and bracketes match EXAMPLES provided.
 Now generate the COURSE_TOPICS for the following:
 """
 
@@ -500,4 +556,411 @@ INTENDED_LEARNING_OUTCOMES: {
 
 Produce a similar json-like answer with course title, description and generated intended learning outcomes.
 Now generate the INTENDED_LEARNING_OUTCOMES for the following:
+"""
+
+
+template_assessment = """Your task is to assist syllabus creation for the courses. You are given course title TITLE, course description DESCRIPTION and course topics COURSE_TOPICS. Generate a list of appropriate formative assessment and course activities, labeled as FINAL_ASSESSMENT,
+for the given COURSE. As a reference, you are given several examples in EXAMPLES section.
+
+EXAMPLES:
+
+EXAMPLE 1:
+TITLE: "Machine Learning"
+DESCRIPTION: "This course covers the following concepts: Machine learning paradigms; Machine Learning approaches, and algorithms."
+COURSE_TOPICS: [
+    {
+      "Section": "Supervised Learning",
+      "Topics within the section": [
+        "Introduction to Machine Learning",
+        "Derivatives and Cost Function",
+        "Data Pre-processing",
+        "Linear Regression",
+        "Multiple Linear Regression",
+        "Gradient Descent",
+        "Polynomial Regression",
+        "Splines",
+        "Bias-varaince Tradeoff",
+        "Difference between classification and regression",
+        "Logistic Regression",
+        "Naive Bayes",
+        "Bayesian Network",
+        "KNN",
+        "Confusion Metrics",
+        "Performance Metrics",
+        "Regularization",
+        "Hyperplane Based Classification",
+        "Perceptron Learning Algorithm",
+        "Max-Margin Classification",
+        "Support Vector Machines",
+        "Slack Variables",
+        "Lagrangian Support Vector Machines",
+        "Kernel Trick"
+      ]
+    },
+    {
+      "Section": "Decision Trees and Ensemble Methods",
+      "Topics within the section": [
+        "Decision Trees",
+        "Bagging",
+        "Boosting",
+        "Random Forest",
+        "Adaboost"
+      ]
+    },
+    {
+      "Section": "Unsupervised Learning",
+      "Topics within the section": [
+        "K-means Clustering",
+        "K-means++",
+        "Hierarchical Clustering",
+        "DBSCAN",
+        "Mean-shift"
+      ]
+    },
+    {
+      "Section": "Deep Learning",
+      "Topics within the section": [
+        "Artificial Neural Networks",
+        "Back-propagation",
+        "Convolutional Neural Networks",
+        "Autoencoder",
+        "Variatonal Autoencoder",
+        "Generative Adversairal Networks"
+      ]
+    }
+]
+FINAL_ASSESSMENT: {
+      "Section 1": [
+        "What does it mean for the standard least squares coefficient estimates of linear regression to be scale equivariant?",
+        "Given a fitted regression model to a dataset, interpret its coefficients.",
+        "Explain which regression model would be a better fit to model the relationship between response and predictor in a given data.",
+        "If the number of training examples goes to infinity, how will it affect the bias and variance of a classification model?",
+        "Given a two dimensional classification problem, determine if by using Logistic regression and regularization, a linear boundary can be estimated or not.",
+        "Explain which classification model would be a better fit to for a given classification problem.",
+        "Consider the Leave-one-out-CV error of standard two-class SVM. Argue that under a given value of slack variable, a given mathematical statement is either correct or incorrect.",
+        "How does the choice of slack variable affect the bias-variance tradeoff in SVM?",
+        "Explain which Kernel would be a better fit to be used in SVM for a given data."
+      ],
+      "Section 2": [
+        "When a decision tree is grown to full depth, how does it affect tree’s bias and variance, and its response to noisy data?",
+        "Argue if an ensemble model would be a better choice for a given classification problem or not.",
+        "Given a particular iteration of boosting and other important information, calculate the weights of the Adaboost classifier."
+      ],
+      "Section 3": [
+        "K-Means does not explicitly use a fitness function. What are the characteristics of the solutions that K-Means finds? Which fitness function does it implicitly minimize?",
+        "Suppose we clustered a set of N data points using two different specified clustering algorithms. In both cases we obtained 5 clusters and in both cases the centers of the clusters are exactly the same. Can 3 points that are assigned to different clusters in one method be assigned to the same cluster in the other method?",
+        "What are the characterics of noise points in DBSCAN?"
+      ],
+      "Section 4": [
+        "Explain what is ReLU, what are its different variants, and what are their pros and cons?",
+        "Calculate the number of parameters to be learned during training in a CNN, given all important information.",
+        "Explain how a VAE can be used as a generative model."
+      ]
+}
+
+EXAMPLE 2:
+COURSE: Fundamentals of Robot Control
+DESCRIPTION: This course covers the following concepts: Introductory nonlinear control over dynamic systems with the focus on robotics; Stability, pros and cons of nonlinear control systems.
+COURSE_TOPICS: [
+    {
+      "Section": "Motion. Kinematics. Dynamics.",
+      "Topics within the section": [
+        "Free body motion",
+        "Manipulator position and orientation",
+        "Homogeneous transformations",
+        "Forward and inverse kinematics",
+        "Kinetic and potential energy",
+        "Euler-Lagrange equations"
+      ]
+    },
+    {
+      "Section": "Linear systems. Stability",
+      "Topics within the section": [
+        "State-space equations",
+        "Eigenvalues and eigenvectors",
+        "Phase plane analysis",
+        "Energy and stability",
+        "Lyapunov’s direct method",
+        "Lyapunov stability analysis"
+      ]
+    },
+    {
+      "Section": "Feedback control systems",
+      "Topics within the section": [
+        "Feedback and building control loops",
+        "Stabilization and trajectory tracking",
+        "Linear regulators (P, PD, PID)"
+      ]
+    },
+    {
+      "Section": "Feedback linearization",
+      "Topics within the section": [
+        "Joint-space inverse dynamics of serial manipulators",
+        "Stabilization and trajectory tracking problems",
+        "Input-state linearization"
+      ]
+    },
+    {
+      "Section": "Robust control",
+      "Topics within the section": [
+        "Sliding modes in dynamic systems",
+        "Robust control in scalar and matrix form",
+        "Stability and tuning of robust controllers",
+        "Control law smoothening."
+      ]
+    }
+]
+"FINAL_ASSESSMENT": {
+      "Section 1": [
+        "What is a rotation matrix and what does it describe?",
+        "How to find a homogeneous transformation matrix? How is it different from rotation matrix?",
+        "What is manipulator Jacobian? How does it relate static forces and torques? How can one use the Jacobian to analyze manipulator singularities?",
+        "What is physical nature of the terms of Euler-Lagrange equations of robot motion?",
+        "What are the main properties of the basic terms of differential equations of motion (invertibility, positive definiteness, singularities, limits)."
+      ],
+      "Section 2": [
+        "Evaluate stability of a linear system whose dynamics is written in the state-space form.",
+        "What must be the properties of Lyapunov function candidate and its time derivative to confirm"
+      ],
+      "Local stability,\nGlobal stability of the system.": [
+        "How to analyze system’s stability based on its phase portrait (with examples)?",
+        "Describe physical motivation behind Lyapunov’s direct method and how it used to analyze stability of dynamical systems."
+      ],
+      "Section 3": [
+        "What is the physical analog of PD-regulator in application to control over second-oder mechanical systems?",
+        "For a given system described by differential equations, design a linear control system and analyze its stability.",
+        "Describe pros and cons of linear controllers in application to nonlinear system control."
+      ],
+      "Section 4": [
+        "What are the pros and cons of feedback linearization approach?",
+        "Provide examples of systems (differential equations) for which feedback linearization can result in infinite control effort.",
+        "What are the typical issues when applying feedback linearization approach to control over robotic manipulators?"
+      ],
+      "Section 5": [
+        "Describe typical sources of uncertainties and parameter deviations in models of physical and mechanical systems, their typical ranges and influence on system behavior.",
+        "Name pros and cons of robust control systems with and without control law smoothening.",
+        "How to tune robust controller terms to compensate for system uncertainties?"
+      ]
+}
+
+EXAMPLE 3:
+COURSE: Managing Software Development
+DESCRIPTION: This course covers the following concepts: People Management; Processes and Software Development Life-cycles; Planning and Controlling.
+COURSE_TOPICS: [
+    {
+      "Section": "People Management",
+      "Topics within the section": [
+        "MSD Introduction",
+        "OBU Case Study Discussion",
+        "Managing Technical People",
+        "Team formation, Decision Making and Conflict Resolution",
+        "Managing Customer Expectations",
+        "MCE Case Study Discussion"
+      ]
+    },
+    {
+      "Section": "Software development processes",
+      "Topics within the section": [
+        "Defining and measuring processes",
+        "Case Study Exercise Discussion",
+        "Software Development Life-cycles",
+        "Process Frameworks and How to choose"
+      ]
+    },
+    {
+      "Section": "Defining project success criteria",
+      "Topics within the section": [
+        "Requirements Management",
+        "Case Study Exercise Discussion",
+        "Requirements case study/lecture",
+        "Identifying and Managing Software Risk",
+        "TBQ, Threshold of Success",
+        "Risk statement discussion"
+      ]
+    },
+    {
+      "Section": "Planning and controlling software development projects",
+      "Topics within the section": [
+        "Introduction - Planning & Controlling Software Development Projects",
+        "Work Breakdown Structures",
+        "Estimation Methods",
+        "Activity Planning",
+        "Milestone Planning",
+        "Release Planning",
+        "Tracking Reporting & Controlling"
+      ]
+    }
+]
+FINAL_ASSESSMENT: {
+      "Section 1": [
+        "Based on a brief description of a situation on a project, give a recommendation for a leadership style. Justify.",
+        "Name Tuckman’s team development stages? What activities are typical of each of those stages?",
+        "Explain the Barry Boehm’s few on managing customers expectations. Give an example."
+      ],
+      "Section 2": [
+        "Give definition of a process.",
+        "What is a Software Development Life-Cycle and how does it differ from from a process?",
+        "List several software development processes currently in use and give their trade-offs?",
+        "Based on a brief description of a software project, what software development process would you recommend? Justify."
+      ],
+      "Section 3": [
+        "Given a situation, identify, prioritise possible risks and discuss mitigation strategy.",
+        "What is Threshold of Success and hos does it differ from Risks.",
+        "Explain the condition-consequence definition for risk statements.",
+        "Give an example of criticality assessment for risk statements."
+      ],
+      "Section 4": [
+        "List several types of Work Breakdown Structures and discuss trade-offs.",
+        "Apply critical path calculations to an activity graph. Give the latest start for a specific task.",
+        "Define milestone planning.",
+        "Explain MOSCOW method for release planning.",
+        "During semester study and write a paper on a software engineering topic of your choice."
+      ]
+}
+
+EXAMPLE 4:
+COURSE: Dynamics Of Non Linear Robotic Systems
+DESCRIPTION: This course covers the following concepts: Robotics; Robotic components; Robotic control.
+COURSE_TOPICS: [
+    {
+      "Section": "Introduction to robotics",
+      "Topics within the section": [
+        "Introduction to Robotics, History of Robotics",
+        "Introduction to Drones",
+        "Introduction to Self driving cars",
+        "Programming of Industrial Robot"
+      ]
+    },
+    {
+      "Section": "Kinematics",
+      "Topics within the section": [
+        "Rigid body and Homogeneous transformation",
+        "Direct Kinematics",
+        "Inverse Kinematics"
+      ]
+    },
+    {
+      "Section": "Differential kinematics",
+      "Topics within the section": [
+        "Differential kinematics",
+        "Geometric calibration",
+        "Trajectory Planning"
+      ]
+    },
+    {
+      "Section": "Dynamics",
+      "Topics within the section": [
+        "Dynamics of Rigid body",
+        "Lagrange approach",
+        "Newton-Euler approach"
+      ]
+    }
+]
+FINAL_ASSESSMENT: {
+      "Section 1": [
+        "Typical commands for programming industrial manipulator motions",
+        "Types of robots and their application ares",
+        "Control of self driving car"
+      ],
+      "Section 2": [
+        "Transformation between reference frames",
+        "Find Euler angles for given orientation matrix and transformation order",
+        "Transformation between Cartesian and operational spaces",
+        "Direct kinematic for SCARA robot",
+        "Inverse kinematic for SCARA robot"
+      ],
+      "Section 3": [
+        "Write Jacobian for Polarrobot",
+        "Advantages and disadvantages parametric and non-parametric robot calibration.",
+        "complete, irreducible geometric model for spherical manipulator",
+        "Compute the joint trajectory q(t) from q(0) = 1 to q(2) = 4 with null initial and final velocities and accelerations. (polynomial)",
+        "Obtain manipulator trajectory for given manipulator kinematics, initial and final states and velocity and acceleration limits/"
+      ],
+      "Section 4": [
+        "Solve inverse dynamics problem for Cartesian robot",
+        "Solve direct dynamics problem for RRR spherical manipulator",
+        "Moving frame approach for dynamics modelling"
+      ]
+}
+
+EXAMPLE 5:
+COURSE: Requirements Engineering
+DESCRIPTION: This course covers the following concepts: Requirements elicitation; Requirements specification; Requirements prototyping and implementation; Requirements verification; Requirements traceability.
+COURSE_TOPICS: [
+    {
+      "Section": "Requirements elicitation and documentation",
+      "Topics within the section": [
+        "Foundations of requirements engineering",
+        "The world and the machine",
+        "Domain understanding and requirements elicitation",
+        "Questions for interviews",
+        "The requirements process",
+        "Use cases",
+        "Requirements specification and documentation"
+      ]
+    },
+    {
+      "Section": "Requirements prototyping and implementation",
+      "Topics within the section": [
+        "Mapping use cases to object models",
+        "From use cases to user interface design",
+        "Activity diagrams",
+        "The psychopathology of everyday things",
+        "Seamless requirements",
+        "The anatomy of requirements"
+      ]
+    },
+    {
+      "Section": "Requirements verification and traceability",
+      "Topics within the section": [
+        "Parameterized unit tests",
+        "Goal modelling",
+        "Scrum & User stories",
+        "Use case testing"
+      ]
+    }
+]
+FINAL_ASSESSMENT: {
+      "Section 1": [
+        "Present you experience of preparing and conducting the elicitation interview.",
+        "How did you choose the stakeholder for interviewing?",
+        "Did the interview go according to the plan?",
+        "Which of the initially prepared questions you did not ask during the interview? Why?",
+        "What questions you had to ask in addition to the initially prepared ones? Why?",
+        "If you have been interviewed, how relevant were the interviewer’s questions?",
+        "What conflicts did you have when merging the interview transcripts of your team members?",
+        "How did you solve the merging conflicts?",
+        "What lessons have you learned based on your experience as an interviewer and an interviewee?",
+        "Present use cases constructed based on the elicited information.",
+        "How do the use cases trace to the interview transcript?",
+        "How does the interview transcript trace to the use cases?"
+      ],
+      "Section 2": [
+        "Record and present a short demo of your MVP.",
+        "What decisions did you have to take when implementing the MVP?",
+        "How did you define your MVP?",
+        "What did you have to change in the requirements document, and why?",
+        "What requirements you decided to cover and not to cover in the MVP, and why?",
+        "Present lessons learned from developing the MVP."
+      ],
+      "Section 3": [
+        "Present the final system developed from the MVP received from another team.",
+        "Introduce the project and its business goals.",
+        "Evaluate the quality of the interview transcript.",
+        "Evaluate the quality of the use cases.",
+        "Evaluate the quality of the MVP and user interfaces.",
+        "Reflect on the quality management process.",
+        "Record and present demo of test runs.",
+        "Reflect on teamwork and communication with other teams.",
+        "Present lessons learned while implementing different parts of different projects coming from the other teams.",
+        "Record and present demo runs of the software using the use cases as the reference.",
+        "Describe strengths and weaknesses of the final implementation.",
+        "Write an essay detailing your reflections on the overall course experience."
+      ]
+}
+
+Produce a similar json-like answer with course title, description and generated formative assessment and course activities.
+Count the number of sections in COURSE_TOPICS and make sure that the number of sections in FINAL_ASSESSMENT is the same as in COURSE_TOPICS.
+Make sure that the content of sections in FINAL_ASSESSMENT match the content of sections in COURSE_TOPICS.
+Now generate the FINAL_ASSESSMENT for the following:
 """
