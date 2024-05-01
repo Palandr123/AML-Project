@@ -7,14 +7,9 @@ from template import template as template_topics
 from peft import LoraConfig, get_peft_model
 
 
-def generate_syllabus(
-    model_id=None, field_to_generate=None, course_title=None, course_description=None
-):
+def load_model(model_id=None):
     # debug output
     print(model_id)
-    print(field_to_generate)
-    print(course_title)
-    print(course_description)
 
     # load model and tokenizer
     base_model_id = (
@@ -72,8 +67,24 @@ def generate_syllabus(
     model_params = {
         "max_new_tokens": 2048,
     }
-    # with open("src/prompt_template_finetune.txt", "r", encoding='utf-8') as f:
-    #     prompt_base = f.read()
+
+    return {'model_id': model_id, 'model': model, 'tokenizer': tokenizer, 'model_params': model_params}
+
+
+def generate_syllabus(
+        model_id=None,
+        model=None,
+        tokenizer=None,
+        model_params=None,
+        field_to_generate=None,
+        course_title=None,
+        course_description=None
+):
+    # debug output
+    print(model)
+    print(field_to_generate)
+    print(course_title)
+    print(course_description)
 
     # Prompt construction
     if field_to_generate == "Course topics":

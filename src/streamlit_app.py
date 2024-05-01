@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 import os
 
-from syllabus_generator import generate_syllabus
+from syllabus_generator import generate_syllabus, load_model
 
 os.environ["HF_TOKEN"] = st.secrets["HF_TOKEN"]
 
@@ -75,8 +75,14 @@ if "generated_syllabuses" not in st.session_state:
 
 
 def generate():
+    if 'loaded_model' not in st.session_state or st.session_state['loaded_model']['model_id'] != select_model:
+        st.session_state['loaded_model'] = load_model(select_model)
+
     generated_data = generate_syllabus(
-        select_model,
+        st.session_state['loaded_model']['model_id'],
+        st.session_state['loaded_model']['model'],
+        st.session_state['loaded_model']['tokenizer'],
+        st.session_state['loaded_model']['model_params'],
         field_to_generate,
         course_title,
         course_description,
@@ -98,6 +104,6 @@ def generate():
 st.button("`Generate!`", on_click=generate)
 
 st.subheader("Last 5 generated syllabuses")
-for idx, json_data in st.session_state["generated_syllabuses"]:
+for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
     st.write(f"Syllabus #{idx}")
     st.json(json_data)
