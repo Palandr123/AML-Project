@@ -47,8 +47,8 @@ course_description = st.sidebar.text_area(
 )
 
 # -- What to generate
-titles_list = ["Course topics", "ILO", "Final Assessment"]
-field_to_generate = st.sidebar.selectbox("What to generate", titles_list)
+titles_list = ["All", "Course topics", "ILO", "Final Assessment"]
+field_to_generate = st.sidebar.selectbox("What to generate", titles_list, index=0)
 
 show_full_course_titles = st.sidebar.checkbox("Show full course names")
 course_names = [
@@ -106,4 +106,10 @@ st.button("`Generate!`", on_click=generate)
 st.subheader("Last 5 generated syllabuses")
 for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
     st.write(f"Syllabus #{idx}")
+    st.download_button(
+        label="Download JSON",
+        file_name=f"syllabus_{idx}.json",
+        mime="application/json",
+        data=json_data,
+    )
     st.json(json_data)

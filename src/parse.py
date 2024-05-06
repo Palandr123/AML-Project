@@ -220,18 +220,18 @@ def parse_activities_within_section(soup: BeautifulSoup) -> dict:
         if final_assessment_soup:
             final_assessment_soup = final_assessment_soup.parent.find_next_sibling()
             final_assessment = {}
-            #print(final_assessment_soup.name)
-            #print(final_assessment_soup.find_next_sibling().name)
-            while final_assessment_soup.name in ['h4', 'p'] and final_assessment_soup.find_next_sibling().name in ['ol', 'ul']:
-                #print(final_assessment_soup.name)
-                #print(final_assessment_soup.find_next_sibling().name)
+            while final_assessment_soup and final_assessment_soup.name in ['h4', 'p'] and final_assessment_soup.find_next_sibling().name in ['ol', 'ul']:
                 section_name = final_assessment_soup.text.strip()
                 final_assessment_soup = final_assessment_soup.find_next_sibling()
                 final_assessment[section_name] = parse_list(final_assessment_soup)
                 final_assessment_soup = final_assessment_soup.find_next_sibling()
             activities_section['Final assessment'] = final_assessment
+        
+        # Find retake assessment
+        
     return activities_section
-    
+
+
 def parse_syllabus(url: str) -> dict:
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
