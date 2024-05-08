@@ -165,6 +165,6 @@ def generate_syllabus(
         generated_data = reduce(lambda a, b: {**a, **b}, generated_data)
     else:
         prompt_str = generate_prompt_str(field_to_generate, course_title, course_description)
-        generated_data = postprocess_json(generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str),
-                                          field_to_generate)
+        generated_data = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
+        generated_data["answer"] = postprocess_json(generated_data["answer"], field_to_generate)
     return generated_data
