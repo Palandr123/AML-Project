@@ -159,12 +159,13 @@ def generate_syllabus(
         for field in ["Course topics", "ILO", "Final Assessment"]:
             prompt_str = generate_prompt_str(field, course_title, course_description)
             generated_single = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
-            generated_single[field] = postprocess_json(generated_single["answer"], field)
+            #generated_single[field] = postprocess_json(generated_single["answer"], field)
+            generated_single[field] = generated_single["answer"]
             del generated_single["answer"]
             generated_data.append(generated_single)
         generated_data = reduce(lambda a, b: {**a, **b}, generated_data)
     else:
         prompt_str = generate_prompt_str(field_to_generate, course_title, course_description)
         generated_data = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
-        generated_data["answer"] = postprocess_json(generated_data["answer"], field_to_generate)
+        #generated_data["answer"] = postprocess_json(generated_data["answer"], field_to_generate)
     return generated_data
