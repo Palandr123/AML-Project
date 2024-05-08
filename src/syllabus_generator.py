@@ -147,7 +147,7 @@ def generate_syllabus(
             generated_single[field] = generated_single["answer"]
             del generated_single["answer"]
             generated_data.append(generated_single)
-            generated_data = reduce(lambda a, b: {**a, **b}, generated_data)
+        generated_data = reduce(lambda a, b: {**a, **b}, generated_data)
     else:
         prompt_str = generate_prompt_str(field_to_generate, course_title, course_description)
         generated_data = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
