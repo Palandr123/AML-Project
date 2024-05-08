@@ -132,7 +132,7 @@ def postprocess_json(string, field):
     elif field == "Final Assessment":
         field = "FINAL_ASSESSMENT: "
 
-    course_topics = str(string[8:-10]).split(f'{field}: ')
+    course_topics = str(string).split(f'{field}: ')[1]
     start_index = course_topics.index("[")
     end_index = course_topics.rindex("]") + 1
     course_topics = course_topics[start_index: end_index]
