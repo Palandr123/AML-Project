@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from template import template_ilo, template_assessment
 from template import template as template_topics
 from functools import reduce
-
+import ast
 from peft import LoraConfig, get_peft_model
 
 
@@ -124,6 +124,21 @@ def generate_prompt_str(
     return prompt_str
 
 
+def postprocess_json(string, field):
+    if field == "Course topics":
+        field = "COURSE_TOPICS: "
+    elif field == "ILO":
+        field = "INTENDED_LEARNING_OUTCOMES: "
+    elif field == "Final Assessment":
+        field = "FINAL_ASSESSMENT: "
+
+    course_topics = string[8:-10].split(f'{field}: ')[1]
+    start_index = course_topics.index("[")
+    end_index = course_topics.rindex("]") + 1
+    course_topics = course_topics[start_index: end_index]
+    return ast.literal_eval(course_topics)
+
+
 def generate_syllabus(
         model_id=None,
         model=None,
@@ -144,11 +159,11 @@ def generate_syllabus(
         for field in ["Course topics", "ILO", "Final Assessment"]:
             prompt_str = generate_prompt_str(field, course_title, course_description)
             generated_single = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
-            generated_single[field] = generated_single["answer"][8:-10]
+            generated_single[field] = postprocess_json(generated_single["answer"], field)
             del generated_single["answer"]
             generated_data.append(generated_single)
         generated_data = reduce(lambda a, b: {**a, **b}, generated_data)
     else:
         prompt_str = generate_prompt_str(field_to_generate, course_title, course_description)
-        generated_data = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
+        generated_data = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)[8:-10]
     return generated_data
