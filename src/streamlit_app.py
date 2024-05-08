@@ -105,12 +105,11 @@ st.button("`Generate!`", on_click=generate)
 
 st.subheader("Last 5 generated syllabuses")
 for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
-    print(json_data)
     st.write(f"Syllabus #{idx}")
     st.download_button(
         label="Download JSON",
         file_name=f"syllabus_{idx}.json",
         mime="application/json",
-        data=json_data,
+        data=str(json_data),
     )
     st.json(json_data)
