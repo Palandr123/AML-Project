@@ -127,11 +127,11 @@ def generate_prompt_str(
 
 def postprocess_json(string, field):
     if field == "Course topics":
-        field = "COURSE_TOPICS: "
+        field = "COURSE_TOPICS"
     elif field == "ILO":
-        field = "INTENDED_LEARNING_OUTCOMES: "
+        field = "INTENDED_LEARNING_OUTCOMES"
     elif field == "Final Assessment":
-        field = "FINAL_ASSESSMENT: "
+        field = "FINAL_ASSESSMENT"
 
     field_json = json.loads(str(string).split(f'"{field}": ')[-1][:-1])
     return field_json
