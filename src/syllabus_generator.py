@@ -134,10 +134,12 @@ def postprocess_json(string, field):
     elif field == "Final Assessment":
         field = "FINAL_ASSESSMENT"
 
-    string = str(string).split(f'"{field}": ')[-1]
+    string = str(string)
+    string = fix_json(string)
+    string = string.split(f'"{field}": ')[-1]
     start_index = min(string.find("["), string.find("{")) if string.find("[") != -1 else string.find("{")
     end_index = max(string.rfind("]"), string.rfind("}")) if string.rfind("]") != -1 else string.rfind("}")
-    field_json = json.loads(fix_json(string[start_index:end_index+1]))
+    field_json = json.loads(string[start_index:end_index+1])
     return field_json
 
 
