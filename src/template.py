@@ -959,8 +959,8 @@ FINAL_ASSESSMENT: {
       ]
 }
 
-Produce a similar json-like answer with course title, description and generated formative assessment and course activities.
+Produce a similar proper formatted JSON with course title, description and generated formative assessment and course activities.
 Count the number of sections in COURSE_TOPICS and make sure that the number of sections in FINAL_ASSESSMENT is the same as in COURSE_TOPICS.
 Make sure that the content of sections in FINAL_ASSESSMENT match the content of sections in COURSE_TOPICS.
-Now generate the FINAL_ASSESSMENT for the following:
+Now generate the FINAL_ASSESSMENT in JSON format for the following:
 """
