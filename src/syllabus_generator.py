@@ -141,7 +141,8 @@ def postprocess_json(string, field):
     #end_index = max(string.rfind("]"), string.rfind("}")) if string.rfind("]") != -1 else string.rfind("}")
     string = str(string[8:-9])
     field_json = json.loads(string)
-    field_json = field_json[field]
+    if field in field_json:
+        field_json = field_json[field]
     return field_json
 
 
