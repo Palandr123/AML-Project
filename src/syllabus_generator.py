@@ -136,9 +136,6 @@ def postprocess_json(string, field):
 
     string = str(string)
     string = fix_json(string)
-    # string = string.split(f'"{field}": ')[-1]
-    #start_index = min(string.find("["), string.find("{")) if string.find("[") != -1 else string.find("{")
-    #end_index = max(string.rfind("]"), string.rfind("}")) if string.rfind("]") != -1 else string.rfind("}")
     string = str(string[8:-9])
     field_json = json.loads(string)
     if field in field_json:
