@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import os
-
+from utils import dict_to_markdown
 from syllabus_generator import generate_syllabus, load_model
 
 os.environ["HF_TOKEN"] = st.secrets["HF_TOKEN"]
@@ -24,6 +24,7 @@ To generate your syllabus:
   4. Click `Generate!` below and copy you result as json!
 """
 )
+md_flag = st.toggle("Print in markdown")
 
 
 # -- Models to use:
@@ -105,6 +106,7 @@ st.button("`Generate!`", on_click=generate)
 
 st.subheader("Last 5 generated syllabuses")
 for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
+    md_str = dict_to_markdown(json_data)
     st.write(f"Syllabus #{idx}")
     st.download_button(
         label="Download JSON",
@@ -112,4 +114,13 @@ for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
         mime="application/json",
         data=str(json_data),
     )
-    st.json(json_data)
+    st.download_button(
+        label="Download MD",
+        file_name=f"syllabus_{idx}.md",
+        mime="application/md",
+        data=md_str
+    )
+    if md_flag:
+        st.markdown(md_str)
+    else:
+        st.json(json_data)
