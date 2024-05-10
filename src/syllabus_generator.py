@@ -137,9 +137,12 @@ def postprocess_json(string, field):
     string = str(string)
     string = fix_json(string)
     string = cut_to_json(string)
-    field_json = json.loads(string)
-    if field in field_json:
-        field_json = field_json[field]
+    try:
+        field_json = json.loads(string)
+        if field in field_json:
+            field_json = field_json[field]
+    except json.decoder.JSONDecodeError:
+        field_json = ""
     return field_json
 
 
