@@ -106,7 +106,7 @@ st.button("`Generate!`", on_click=generate)
 
 st.subheader("Last 5 generated syllabuses")
 for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
-    md_str = dict_to_markdown(json_data)
+    md_str = dict_to_markdown(json_data, 1)
     st.write(f"Syllabus #{idx}")
     st.download_button(
         label="Download JSON",
