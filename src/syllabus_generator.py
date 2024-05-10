@@ -5,7 +5,7 @@ from template import template as template_topics
 from functools import reduce
 import ast
 from peft import LoraConfig, get_peft_model
-from utils import fix_json
+from utils import fix_json, cut_to_json
 import json
 
 
@@ -136,7 +136,7 @@ def postprocess_json(string, field):
 
     string = str(string)
     string = fix_json(string)
-    string = str(string[8:-9])
+    string = cut_to_json(string)
     field_json = json.loads(string)
     if field in field_json:
         field_json = field_json[field]

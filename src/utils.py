@@ -36,3 +36,15 @@ def dict_to_markdown(input_data, depth, prev_list=False):
                 out_str += "#" * depth + " "
             out_str += dict_to_markdown(input_data[key], depth + 1)
         return out_str
+
+
+def cut_to_json(string):
+    for idx, ch in enumerate(string):
+        if ch in ['[', '{']:
+            start_idx = idx
+            break
+    for idx, ch in enumerate(string[::-1]):
+        if ch in [']', '}']:
+            end_idx = -1 * idx
+            break
+    return str(string[start_idx:end_idx])
