@@ -2,19 +2,16 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from template import template_ilo, template_assessment
 from template import template as template_topics
-
-
+from functools import reduce
+import ast
 from peft import LoraConfig, get_peft_model
+from utils import fix_json, cut_to_json
+import json
 
 
-def generate_syllabus(
-    model_id=None, field_to_generate=None, course_title=None, course_description=None
-):
+def load_model(model_id=None):
     # debug output
     print(model_id)
-    print(field_to_generate)
-    print(course_title)
-    print(course_description)
 
     # load model and tokenizer
     base_model_id = (
@@ -72,26 +69,17 @@ def generate_syllabus(
     model_params = {
         "max_new_tokens": 2048,
     }
-    # with open("src/prompt_template_finetune.txt", "r", encoding='utf-8') as f:
-    #     prompt_base = f.read()
 
-    # Prompt construction
-    if field_to_generate == "Course topics":
-        prompt_base = template_topics
-    elif field_to_generate == "ILO":
-        prompt_base = template_ilo
-    elif field_to_generate == "Final Assessment":
-        prompt_base = template_assessment
+    return {'model_id': model_id, 'model': model, 'tokenizer': tokenizer, 'model_params': model_params}
 
-    prompt_str = (
-        f"{prompt_base}TITLE: {course_title}\nDESCRIPTION: {course_description}\n"
-    )
-    if field_to_generate == "Course topics":
-        prompt_str += "COURSE_TOPICS: "
-    elif field_to_generate == "ILO":
-        prompt_str += "INTENDED_LEARNING_OUTCOMES: "
-    elif field_to_generate == "Final Assessment":
-        prompt_str += "FINAL_ASSESSMENT: "
+
+def generate_syllabus_single_topic(
+        model_id=None,
+        model=None,
+        tokenizer=None,
+        model_params=None,
+        prompt_str=None,
+):
     chat = [
         {"role": "user", "content": prompt_str},
     ]
@@ -111,3 +99,81 @@ def generate_syllabus(
         "model": model_id,
         "answer": answer,
     }
+
+
+def generate_prompt_str(
+    field_to_generate=None,
+    course_title=None,
+    course_description=None
+):
+    if field_to_generate == "Course topics":
+        prompt_base = template_topics
+    elif field_to_generate == "ILO":
+        prompt_base = template_ilo
+    elif field_to_generate == "Final Assessment":
+        prompt_base = template_assessment
+
+    prompt_str = (
+        f"{prompt_base}TITLE: {course_title}\nDESCRIPTION: {course_description}\n"
+    )
+    if field_to_generate == "Course topics":
+        prompt_str += "COURSE_TOPICS: "
+    elif field_to_generate == "ILO":
+        prompt_str += "INTENDED_LEARNING_OUTCOMES: "
+    elif field_to_generate == "Final Assessment":
+        prompt_str += "FINAL_ASSESSMENT: "
+
+    return prompt_str
+
+
+def postprocess_json(string, field):
+    if field == "Course topics":
+        field = "COURSE_TOPICS"
+    elif field == "ILO":
+        field = "INTENDED_LEARNING_OUTCOMES"
+    elif field == "Final Assessment":
+        field = "FINAL_ASSESSMENT"
+
+    string = str(string)
+    string = fix_json(string)
+    string = cut_to_json(string)
+    try:
+        field_json = json.loads(string)
+        if field in field_json:
+            field_json = field_json[field]
+    except json.decoder.JSONDecodeError:
+        field_json = ""
+    return field_json
+
+
+def generate_syllabus(
+        model_id=None,
+        model=None,
+        tokenizer=None,
+        model_params=None,
+        field_to_generate=None,
+        course_title=None,
+        course_description=None
+):
+    # debug output
+    print(model)
+    print(field_to_generate)
+    print(course_title)
+    print(course_description)
+
+    generated_data = []
+    if field_to_generate == "All":
+        for field in ["Course topics", "ILO", "Final Assessment"]:
+            prompt_str = generate_prompt_str(field, course_title, course_description)
+            generated_single = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
+            generated_single[field] = postprocess_json(generated_single["answer"], field)
+            # generated_single[field] = generated_single["answer"]
+            del generated_single["answer"]
+            generated_data.append(generated_single)
+        generated_data = reduce(lambda a, b: {**a, **b}, generated_data)
+    else:
+        prompt_str = generate_prompt_str(field_to_generate, course_title, course_description)
+        generated_data = generate_syllabus_single_topic(model_id, model, tokenizer, model_params, prompt_str)
+        generated_data[field_to_generate] = postprocess_json(generated_data["answer"], field_to_generate)
+        del generated_data["answer"]
+    return generated_data

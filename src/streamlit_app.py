@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import os
-
-from syllabus_generator import generate_syllabus
+from utils import dict_to_markdown
+from syllabus_generator import generate_syllabus, load_model
 
 os.environ["HF_TOKEN"] = st.secrets["HF_TOKEN"]
 
@@ -24,6 +24,7 @@ To generate your syllabus:
   4. Click `Generate!` below and copy you result as json!
 """
 )
+md_flag = st.toggle("Print in markdown")
 
 
 # -- Models to use:
@@ -47,8 +48,8 @@ course_description = st.sidebar.text_area(
 )
 
 # -- What to generate
-titles_list = ["Course topics", "ILO", "Final Assessment"]
-field_to_generate = st.sidebar.selectbox("What to generate", titles_list)
+titles_list = ["All", "Course topics", "ILO", "Final Assessment"]
+field_to_generate = st.sidebar.selectbox("What to generate", titles_list, index=0)
 
 show_full_course_titles = st.sidebar.checkbox("Show full course names")
 course_names = [
@@ -75,8 +76,14 @@ if "generated_syllabuses" not in st.session_state:
 
 
 def generate():
+    if 'loaded_model' not in st.session_state or st.session_state['loaded_model']['model_id'] != select_model:
+        st.session_state['loaded_model'] = load_model(select_model)
+
     generated_data = generate_syllabus(
-        select_model,
+        st.session_state['loaded_model']['model_id'],
+        st.session_state['loaded_model']['model'],
+        st.session_state['loaded_model']['tokenizer'],
+        st.session_state['loaded_model']['model_params'],
         field_to_generate,
         course_title,
         course_description,
@@ -98,6 +105,22 @@ def generate():
 st.button("`Generate!`", on_click=generate)
 
 st.subheader("Last 5 generated syllabuses")
-for idx, json_data in st.session_state["generated_syllabuses"]:
+for idx, json_data in st.session_state["generated_syllabuses"][::-1]:
+    md_str = dict_to_markdown(json_data, 1)
     st.write(f"Syllabus #{idx}")
-    st.json(json_data)
+    st.download_button(
+        label="Download JSON",
+        file_name=f"syllabus_{idx}.json",
+        mime="application/json",
+        data=str(json_data),
+    )
+    st.download_button(
+        label="Download MD",
+        file_name=f"syllabus_{idx}.md",
+        mime="application/md",
+        data=md_str
+    )
+    if md_flag:
+        st.markdown(md_str)
+    else:
+        st.json(json_data)
