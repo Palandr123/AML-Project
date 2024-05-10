@@ -39,6 +39,8 @@ def dict_to_markdown(input_data, depth, prev_list=False):
 
 
 def cut_to_json(string):
+    start_idx = 0
+    end_idx = -1
     for idx, ch in enumerate(string):
         if ch in ['[', '{']:
             start_idx = idx
